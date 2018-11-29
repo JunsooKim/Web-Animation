@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<body style="text-align:center">
+  <h1>HTML5 Canvas Drawing</h1>
+  <canvas id="myCanvas" width="800" height="500" style="border:2px solid #BBBBBB;">
+  </canvas>
+
+  <script>
+    var canv=document.getElementById("myCanvas");
+    var c=canv.getContext("2d");
+
+    var w = canv.width;
+    var h = canv.height;
+    var arm1X=500, arm1Y=250, armT=0, ballX = 500, ballY = 260, ballR = 20, ballT = 0
+    
+    function drawSky(){
+        c.fillStyle="rgb(100,200, 240)";
+        c.fillRect(0,0,800,400);
+
+    }
+      
+    function drawHead(){
+        c.fillStyle="black";
+        c.beginPath();
+        c.arc(400, 100, 40, 0, Math.PI*2);  //x, y, radius, start angle, end angle
+        c.closePath();
+        c.fill();
+        c.stroke();  
+    }
+    
+    function drawBody(){
+        c.lineWidth=10; 
+        c.lineCap='round'; 
+        c.moveTo(400,100);
+        c.lineTo(400,300);
+        c.stroke();
+    }
+    
+    function drawLeg1(){
+        c.lineWidth=10; 
+        c.lineCap='round'; 
+        c.moveTo(400,300);
+        c.lineTo(450,450);
+        c.stroke();
+    }
+    
+    function drawLeg2(){
+        c.lineWidth=10; 
+        c.lineCap='round'; 
+        c.moveTo(400,300);
+        c.lineTo(350,450);
+        c.stroke();
+    }
+    
+    function drawArm1(){
+        c.lineWidth=10; 
+        c.lineCap='round'; 
+        c.moveTo(400,200);
+        c.lineTo(arm1X,arm1Y);
+        c.stroke();
+    }
+    
+    function drawArm2(){
+        c.lineWidth=10; 
+        c.lineCap='round'; 
+        c.moveTo(400,200);
+        c.lineTo(300,250);
+        c.stroke();
+    }
+    
+    function drawGround(){
+            // Rectangle - ground
+            c.fillStyle="grey";
+            c.fillRect(0,250,800,250);
+    }
+    
+    function drawYoyo(){
+        c.fillStyle="blue";
+        c.lineWidth=1;
+        c.beginPath();
+        c.arc(ballX, ballY, ballR, 0, Math.PI*2);  //x, y, radius, start angle, end angle
+        c.closePath();
+        c.fill();
+        c.stroke();  
+    }
+    
+    function drawString(){
+        c.lineWidth=1; 
+        c.lineCap='round'; 
+        c.moveTo(arm1X,arm1Y);
+        c.lineTo(ballX,ballY);
+        c.stroke();
+        /*
+        c.moveTo(300,200);
+        c.lineTo(400,400);
+        */
+    }
+    
+    function animate(){
+        
+        armT += 0.03;              // for sinusoidal trajectory; range 0 - PI
+        ballT += 0.05;
+        if(armT > Math.PI)            // wrap to left   
+            armT=0;
+        //arm1X = w * armT / Math.PI;
+        arm1Y = h/2-h/5*Math.sin(armT);
+        ballY = h/2-h/4*Math.sin(ballT);
+        ballX = 500+w/32*Math.sin(ballT);
+            
+        drawGround();
+        drawSky();
+        drawHead();
+        drawBody();
+        drawLeg1();
+        drawLeg2();
+        drawArm1();
+        drawArm2();
+        drawYoyo();
+        drawString();
+      }
+      
+    setInterval(animate, 30);
+        //animate();
+      
+</script>
+
+
+</body></html>
